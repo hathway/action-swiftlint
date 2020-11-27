@@ -1,6 +1,11 @@
 name: 'GitHub Action for SwiftLint'
 description: 'A tool to enforce Swift style and conventions'
 author: 'Norio Nomura <norio.nomura@gmail.com>'
+outputs:
+  violations_count:
+    description: 'Number of found violations'
+  serious_violations_count:
+    description: 'Number of serious violations'
 runs:
   using: 'docker'
   image: 'Dockerfile'

@@ -15,6 +15,16 @@ function convertToGitHubActionsLoggingCommands() {
     sed -E 's/^(.*):([0-9]+):([0-9]+): (warning|error|[^:]+): (.*)/::\4 file=\1,line=\2,col=\3::\5/'
 }
 
+function parseOutputsParameters() {
+   input_value=$( cat )
+   violations=$(echo "$input_value" | grep -E '::warning|::error' -c)
+   errors=$(echo "$input_value" | grep -E 'error' -c)
+   echo "$input_value"
+   echo "::set-output name=violations_count::$violations"
+   echo "::set-output name=serious_violations_count::$errors"
+}
+
+
 if ! ${WORKING_DIRECTORY+false};
 then
 	cd ${WORKING_DIRECTORY}
@@ -31,4 +41,4 @@ then
 	fi
 fi
 
-set -o pipefail && swiftlint "$@" -- $changedFiles | stripPWD | convertToGitHubActionsLoggingCommands
+set -o pipefail && swiftlint "$@" -- $changedFiles | stripPWD | convertToGitHubActionsLoggingCommands | parseOutputsParameters
