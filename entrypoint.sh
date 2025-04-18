@@ -41,4 +41,5 @@ then
 	fi
 fi
 
+set -o pipefail && swiftlint --version
 set -o pipefail && swiftlint "$@" -- $changedFiles | stripPWD | convertToGitHubActionsLoggingCommands | parseOutputsParameters
