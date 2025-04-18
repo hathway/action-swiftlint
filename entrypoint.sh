@@ -41,4 +41,6 @@ then
 	fi
 fi
 
+echo "Using swiftlint version: `swiftlint --version`"
+set -o pipefail && swiftlint -verion
 set -o pipefail && swiftlint "$@" -- $changedFiles | stripPWD | convertToGitHubActionsLoggingCommands | parseOutputsParameters
